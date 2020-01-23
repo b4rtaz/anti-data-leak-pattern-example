@@ -9,7 +9,7 @@ This repository is an example project for the article "Anti-Data-Leak Pattern fo
 > 
 > With the help of asymmetric cryptography, we can alter many attack vectors, and make the theft of database resistant to data leak. (...)
 
-[📰 Read the full article here](https://b4rtaz.github.io/blog/anti-data-leak-pattern-for-web-services)
+[📰 Read the full article here](https://b4rtaz.github.io/blog/anti-data-leak-pattern)
 
 **user-client** tested on:
 * 💚 Mozilla Firefox (72.0.1)
