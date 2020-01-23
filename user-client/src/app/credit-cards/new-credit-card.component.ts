@@ -24,15 +24,15 @@ export class NewCreditCardComponent implements OnInit {
 
 	public ngOnInit() {
 		this.form = new FormGroup({
-			'number': new FormControl('', [
+			number: new FormControl('', [
 				Validators.required,
 				Validators.maxLength(16)
 			]),
-			'exp': new FormControl('', [
+			exp: new FormControl('', [
 				Validators.required,
 				Validators.maxLength(5)
 			]),
-			'cvv2': new FormControl('', [
+			cvv2: new FormControl('', [
 				Validators.required,
 				Validators.maxLength(3)
 			])
