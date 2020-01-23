@@ -1,0 +1,26 @@
+<h2>New Credit Card</h2>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+	<p *ngIf="!!error" class="error">
+		{{error}}
+	</p>
+	<p>
+		<label>Number</label>
+		<input type="text" formControlName="number" autocomplete="off" />
+	</p>
+	<p>
+		<label>Exp (MM/DD)</label>
+		<input type="text" formControlName="exp" autocomplete="off" />
+	</p>
+	<p>
+		<label>CVV2 (XXX)</label>
+		<input type="text" formControlName="cvv2" autocomplete="off" />
+	</p>
+	<p>
+		<button type="submit" [disabled]="isBusy">Add</button>
+	</p>
+</form>
+
+<p>
+	<a [routerLink]="['/credit-cards']">&larr; Credit Cards</a>
+</p>

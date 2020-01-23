@@ -1,0 +1,9 @@
+<header>
+	<h1>User Client</h1>
+</header>
+<div *ngIf="login" id="session">
+	Welcome <strong>{{login}}</strong>!
+	<button (click)="logOut()">Logout</button>
+</div>
+
+<router-outlet></router-outlet>

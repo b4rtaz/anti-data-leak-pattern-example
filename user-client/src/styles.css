@@ -1,0 +1,85 @@
+body, input, button {
+	font: 11pt/1.25em 'Open Sans', Arial, Tahoma, Verdana;
+	color: black;
+}
+
+body {
+	margin: 0;
+	background: #EDF0F2;
+	text-align: center;
+}
+
+header {
+	padding: 0.3em;
+	background: #344955;
+	color: white;
+}
+header h1 {
+	line-height: 1.25em;
+	font-size: 18pt;
+}
+
+#session {
+	padding: 0.5em;
+	background: #1A2429;
+	color: white;
+}
+
+form {
+	margin: 0 auto;
+	max-width: 50%;
+	padding: 2em;
+	background: #FFF;
+}
+p.error {
+	font-weight: bold;
+	color: #DE3117;
+}
+label {
+	display: block;
+	padding: 0 0 0.2em;
+}
+input {
+	padding: 0.4em 0.6em;
+	border: 1px solid silver;
+	border-radius: 0.5em 0.5em;
+}
+input.ng-invalid {
+	background: #FFEDE3;
+}
+
+button {
+	padding: 0.4em 0.6em;
+	font-weight: bold;
+	border: 0;
+	background: #FAAB1A;
+	color: #162529;
+	border-radius: 0.5em 0.5em;
+	cursor: pointer;
+	transition: background-color 300ms linear;
+}
+button:hover {
+	background: #FA711C;
+}
+
+a {
+	color: #FA711C;
+	transition: color 300ms linear;
+}
+a:hover {
+	color: #DE3117;
+}
+
+table {
+	border-spacing: 0;
+}
+table tr th, table tr td {
+	padding: 0.6em 0.8em;
+}
+table tr th {
+	background: #1A2429;
+	color: white;
+}
+table tr:nth-child(even) td {
+	background: #FFF;
+}

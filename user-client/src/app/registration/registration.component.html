@@ -1,0 +1,22 @@
+<h2>Create Account</h2>
+
+<form (ngSubmit)="submitForm()">
+	<p *ngIf="!!error" class="error">
+		{{error}}
+	</p>
+	<p>
+		<label>Login</label>
+		<input type="text" [(ngModel)]="login" name="login" autocomplete="off" />
+	</p>
+	<p>
+		<label>Password</label>
+		<input type="password" [(ngModel)]="password" name="password" autocomplete="off" />
+	</p>
+	<p>
+		<button type="submit" [disabled]="isBusy">Register</button>
+	</p>
+
+	<p>
+		<a [routerLink]="['/login']">&larr; Login</a>
+	</p>
+</form>
