@@ -2,6 +2,7 @@
     "require": {
         "mdanter/ecc": "^0.5.2",
         "ext-gmp": "*",
-        "fgrosse/phpasn1": "^2.0"
+        "fgrosse/phpasn1": "^2.0",
+        "guzzlehttp/guzzle": "~6.0"
     }
 }

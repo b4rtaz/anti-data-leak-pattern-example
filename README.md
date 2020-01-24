@@ -5,9 +5,9 @@
 
 This repository is an example project for the article "Anti-Data-Leak Pattern for Web Services".
 
-> (...) Current cloud services look similar; each has a database, which stores every sensitive data in plain text, credit card numbers, PIN codes, or personal ID numbers. To get all of this information, hackers must gain access to the database. Of course, this isn’t easy, but if they achieve it, they have every information that people sent to the service. The next significant weakness of this architecture is that many people can access the infrastructure. Developers, network administrators, back-up team, or cleaning staff, have access to the server room. That gives thousands of attack vectors.
+> (...) Current cloud services look similar; each has a database, which stores every sensitive data in plain text, credit card numbers, PIN codes, or personal ID numbers. To get all of this information, hackers must gain access to the database. Of course, this isn’t easy, but if they achieve it, they have every information that people sent to the service. The next significant weakness of this architecture is that many people can access the infrastructure. Developers, network administrators, back-up team, or cleaning staff, have access to the server. That gives thousands of attack vectors.
 > 
-> With the help of asymmetric cryptography, we can alter many attack vectors, and make the theft of database resistant to data leak. (...)
+> With the help of asymmetric cryptography, we can prevent many attack vectors, and make the theft of database resistant to data leak. (...)
 
 [📰 Read the full article here](https://b4rtaz.github.io/blog/anti-data-leak-pattern)
 

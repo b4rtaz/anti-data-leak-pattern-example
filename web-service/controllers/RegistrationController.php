@@ -16,6 +16,14 @@ class RegistrationController {
     }
 
     public function __invoke(Request $request, Response $response): Response {
+        switch ($request->getMethod()) {
+            case 'POST':
+                return $this->post($request, $response);
+        }
+        throw new \RuntimeException('Request method not supported.');
+    }
+
+    private function post(Request $request, Response $response): Response {
         $params = $request->getParsedBody();
         $login = (string)$params['login'];
         $hashedPassword = base64_decode((string)$params['hashedPassword']);
@@ -24,16 +32,30 @@ class RegistrationController {
 
         /* @var $pdo \PDO */
         $pdo = $this->_container->get('db');
+        $pdo->beginTransaction();
 
-        $password = $this->hashPassword($hashedPassword);
+        try {
+            $verifyQuery = $pdo->prepare('SELECT COUNT(*) count FROM users WHERE login = ?');
+            $verifyQuery->execute([$login]);
+            if ($verifyQuery->fetch()['count'] > 0) {
+                throw new \RuntimeException('Username already taken.');
+            }
 
-        $query = $pdo->prepare('INSERT INTO users(login, password, publicKey, encryptedPrivateKey) VALUES(?, ?, ?, ?)');
-        $query->execute([
-            $login,
-            $password,
-            $userPublicKey,
-            $userEncryptedPrivateKey
-        ]);
+            $password = $this->hashPassword($hashedPassword);
+
+            $insertQuery = $pdo->prepare('INSERT INTO users(login, password, publicKey, encryptedPrivateKey) VALUES(?, ?, ?, ?)');
+            $insertQuery->execute([
+                $login,
+                $password,
+                $userPublicKey,
+                $userEncryptedPrivateKey
+            ]);
+
+            $pdo->commit();
+        } catch (Exception $ex) {
+            $pdo->rollBack();
+            throw $ex;
+        }
 
         return $response->withJson([], 200);
     }

@@ -19,7 +19,7 @@ use Mdanter\Ecc\Serializer\Util\CurveOidMapper;
 class DerPrivateKeyV0Serializer implements PrivateKeySerializerInterface {
 
     public function serialize(PrivateKeyInterface $key): string {
-        throw new \Exception('Not implemeneted.');
+        throw new \Exception('Not implemented.');
     }
 
     public function parse(string $formattedKey): PrivateKeyInterface {

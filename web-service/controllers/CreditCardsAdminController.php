@@ -18,10 +18,20 @@ class CreditCardsAdminController {
     public function __invoke(Request $request, Response $response): Response {
         $this->authorize($request);
 
+        switch ($request->getMethod()) {
+            case 'GET':
+                return $this->get($response);
+            case 'PUT':
+                return $this->put($request, $response);
+        }
+        throw new \RuntimeException('Request method not supported.');
+    }
+
+    public function get(Response $response): Response {
         /* @var $pdo \PDO */
         $pdo = $this->_container->get('db');
         $query = $pdo->query(
-            'SELECT c.login, u.publicKey, c.number, c.exp, c.cvv2 ' .
+            'SELECT c.login, u.publicKey, c.id, c.number, c.exp, c.cvv2 ' .
             'FROM creditcards c ' .
             'INNER JOIN users u ON c.login = u.login');
 
@@ -34,8 +44,11 @@ class CreditCardsAdminController {
             $cvv2 = json_decode($row['cvv2'], true);
 
             $items[] = [
-                'login' => $login,
-                'publickKey' => base64_encode($publicKey),
+                '_user' => [
+                    'login' => $login,
+                    'publicKey' => base64_encode($publicKey)
+                ],
+                'id' => $row['id'],
                 'number' => $this->findEncryptedValue($number, 'admin'),
                 'exp' => $exp,
                 'cvv2' => $this->findEncryptedValue($cvv2, 'admin'),
@@ -54,6 +67,29 @@ class CreditCardsAdminController {
             }
         }
         throw new RuntimeException('Cannot find the relation.');
+    }
+
+    private function put(Request $request, Response $response) {
+        $route = $request->getAttribute('route');
+        $id = (int)$route->getArgument('id');
+
+        $params = $request->getParsedBody();
+        $number = (array)$params['number'];
+        $exp = (string)$params['exp'];
+        $cvv2 = (array)$params['cvv2'];
+
+        /* @var $pdo \PDO */
+        $pdo = $this->_container->get('db');
+
+        $query = $pdo->prepare('UPDATE creditcards SET number = ?, exp = ?, cvv2 = ? WHERE id = ?');
+        $query->execute([
+            json_encode($number),
+            $exp,
+            json_encode($cvv2),
+            $id
+        ]);
+
+        return $response->withJson([], 200);
     }
 
     private function authorize(Request $request) {
