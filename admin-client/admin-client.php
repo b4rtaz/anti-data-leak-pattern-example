@@ -115,7 +115,7 @@ foreach ($creditCards as $index => $card) {
 
 $index = (int)readline('Enter card index: ');
 if ($index < 0 || $index >= count($creditCards)) {
-    throw new RuntimeException('Invalid index.');
+    throw new \RuntimeException('Invalid index.');
 }
 
 $card = $creditCards[$index];

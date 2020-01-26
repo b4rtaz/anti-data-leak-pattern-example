@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthorizationService } from '../authorization.service';
-import { AES } from '../utils/aes';
-import { Base64 } from '../utils/base64';
+import { EncryptionService } from '../encryption.service';
 import { AddCreditCardRequestBody, CreditCardsDataService } from './credit-cards.data-service';
 
 @Component({
@@ -19,7 +17,7 @@ export class NewCreditCardComponent implements OnInit {
 	public constructor(
 		private readonly router: Router,
 		private readonly creditCardDataService: CreditCardsDataService,
-		private readonly authorizationService: AuthorizationService) {
+		private readonly encryptionService: EncryptionService) {
 	}
 
 	public ngOnInit() {
@@ -59,47 +57,18 @@ export class NewCreditCardComponent implements OnInit {
 	}
 
 	private async add() {
-		const requestBody = await generateAddCreditCardRequestBody(
-			this.form.get('number').value,
-			this.form.get('exp').value,
-			this.form.get('cvv2').value,
-			this.authorizationService.adminEncryptionKey,
-			this.authorizationService.backendEncryptionKey);
+		const num = this.form.get('number').value;
+		const exp = this.form.get('exp').value;
+		const cvv2 = this.form.get('cvv2').value;
+
+		const requestBody: AddCreditCardRequestBody = {
+			number: await this.encryptionService.encrypt(num),
+			exp,
+			cvv2: await this.encryptionService.encrypt(cvv2)
+		};
 
 		await this.creditCardDataService.addCreditCard(requestBody);
 
 		await this.router.navigateByUrl('/credit-cards');
 	}
-}
-
-async function generateAddCreditCardRequestBody(
-	cardNumber: string,
-	exp: string,
-	cvv2: string,
-	adminEncryptionKey: CryptoKey,
-	backendEncryptionKey: CryptoKey): Promise<AddCreditCardRequestBody> {
-
-	return {
-		number: [
-			{
-				relation: ['user', 'admin'],
-				value: Base64.encode(await AES.encrypt(adminEncryptionKey, cardNumber))
-			},
-			{
-				relation: ['user', 'backend'],
-				value: Base64.encode(await AES.encrypt(backendEncryptionKey, cardNumber))
-			}
-		],
-		exp,
-		cvv2: [
-			{
-				relation: ['user', 'admin'],
-				value: Base64.encode(await AES.encrypt(adminEncryptionKey, cvv2))
-			},
-			{
-				relation: ['user', 'backend'],
-				value: Base64.encode(await AES.encrypt(adminEncryptionKey, cvv2))
-			}
-		]
-	};
 }

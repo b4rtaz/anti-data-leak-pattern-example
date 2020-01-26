@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthorizationService } from '../authorization.service';
+import { EncryptionService } from '../encryption.service';
 import { AES } from '../utils/aes';
 import { Base64 } from '../utils/base64';
 import { ECDH } from '../utils/ecdh';
@@ -21,7 +22,8 @@ export class LoginComponent {
 	public constructor(
 		private readonly router: Router,
 		private readonly loginDataService: LoginDataService,
-		private readonly authorizationService: AuthorizationService) {
+		private readonly authorizationService: AuthorizationService,
+		private readonly encryptionService: EncryptionService) {
 	}
 
 	public async submitForm() {
@@ -66,12 +68,10 @@ export class LoginComponent {
 		const adminEncryptionKey = await ECDH.deriveEncryptionKey(userPrivateKey, adminPublicKey);
 		const backendEncryptionKey = await ECDH.deriveEncryptionKey(userPrivateKey, backendPublicKey);
 
-		this.authorizationService.logIn(
-			this.login,
-			responseBody.token,
-			adminEncryptionKey,
-			backendEncryptionKey
-		);
+		this.encryptionService.registerKey(['user', 'admin'], adminEncryptionKey);
+		this.encryptionService.registerKey(['user', 'backend'], backendEncryptionKey);
+
+		this.authorizationService.logIn(this.login, responseBody.token);
 
 		await this.router.navigateByUrl('/credit-cards');
 	}

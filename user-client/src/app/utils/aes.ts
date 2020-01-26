@@ -2,6 +2,10 @@
 export class AES {
 
 	public static async importKey(keyBytes: ArrayBuffer): Promise<CryptoKey> {
+		if (!keyBytes || keyBytes.byteLength !== 32) {
+			throw new Error('keyBytes is empty or invalid.');
+		}
+
 		return await crypto.subtle.importKey('raw', keyBytes, 'AES-CBC', false, [
 			'decrypt',
 			'encrypt'

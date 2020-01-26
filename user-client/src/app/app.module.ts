@@ -11,6 +11,7 @@ import { AuthorizationService } from './authorization.service';
 import { CreditCardsComponent } from './credit-cards/credit-cards.component';
 import { CreditCardsDataService } from './credit-cards/credit-cards.data-service';
 import { NewCreditCardComponent } from './credit-cards/new-credit-card.component';
+import { EncryptionService } from './encryption.service';
 import { LoginComponent } from './login/login.component';
 import { LoginDataService } from './login/login.data-service';
 import { RegistrationComponent } from './registration/registration.component';
@@ -42,6 +43,7 @@ import { RegistrationDataService } from './registration/registration.data-servic
 			useClass: ApiHttpInterceptor,
 			multi: true
 		},
+		EncryptionService,
 		LoginDataService,
 		RegistrationDataService,
 		CreditCardsDataService

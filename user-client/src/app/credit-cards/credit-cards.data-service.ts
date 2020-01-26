@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { EncryptedValue } from '../encryption.model';
+
 @Injectable()
 export class CreditCardsDataService {
 
@@ -31,9 +33,4 @@ export interface AddCreditCardRequestBody {
 	number: EncryptedValue[];
 	exp: string;
 	cvv2: EncryptedValue[];
-}
-
-export interface EncryptedValue {
-	relation: string[];
-	value: string;
 }

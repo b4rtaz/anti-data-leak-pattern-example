@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthorizationService } from './authorization.service';
 import { Router } from '@angular/router';
+
+import { AuthorizationService } from './authorization.service';
+import { EncryptionService } from './encryption.service';
 
 @Component({
 	selector: 'app-root',
@@ -10,7 +12,8 @@ export class AppComponent {
 
 	public constructor(
 		private readonly router: Router,
-		private readonly authorizationService: AuthorizationService) {
+		private readonly authorizationService: AuthorizationService,
+		private readonly encryptionService: EncryptionService) {
 	}
 
 	public get login(): string {
@@ -18,6 +21,7 @@ export class AppComponent {
 	}
 
 	public logOut() {
+		this.encryptionService.deregisterAllKeys();
 		this.authorizationService.logOut();
 		this.router.navigateByUrl('/login');
 	}
