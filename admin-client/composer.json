@@ -4,5 +4,10 @@
         "ext-gmp": "*",
         "fgrosse/phpasn1": "^2.0",
         "guzzlehttp/guzzle": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AdminClient\\": "app/"
+        }
     }
 }

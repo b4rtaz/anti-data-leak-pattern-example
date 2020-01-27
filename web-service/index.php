@@ -4,18 +4,19 @@ error_reporting(E_ALL);
 
 use Slim\App;
 use Slim\Container;
+use WebService\Controllers\CreditCardsAdminController;
+use WebService\Controllers\CreditCardsController;
+use WebService\Controllers\LoginController;
+use WebService\Controllers\RegistrationController;
+use WebService\Controllers\WellKnownAdminController;
 
 require 'settings.php';
 require 'vendor/autoload.php';
-require 'controllers/CreditCardsAdminController.php';
-require 'controllers/CreditCardsController.php';
-require 'controllers/LoginController.php';
-require 'controllers/RegistrationController.php';
-require 'controllers/WellKnownAdminController.php';
 
 $container = new Container([
     'settings' => $settings
 ]);
+
 $container['db'] = function (Container $container) {
     $db = $container->get('settings')['db'];
     $pdo = new \PDO($db['dsn'], $db['username'], $db['password']);
@@ -27,12 +28,13 @@ $container['db'] = function (Container $container) {
 };
 
 $app = new App($container);
-$app->get('/admin/.well-known', \WellKnownAdminController::class);
-$app->get('/admin/credit-cards', \CreditCardsAdminController::class);
-$app->put('/admin/credit-cards/{id}', \CreditCardsAdminController::class);
-$app->get('/credit-cards', \CreditCardsController::class);
-$app->post('/credit-cards', \CreditCardsController::class);
-$app->post('/login', \LoginController::class);
-$app->post('/register', \RegistrationController::class);
+
+$app->get('/admin/.well-known', WellKnownAdminController::class);
+$app->get('/admin/credit-cards', CreditCardsAdminController::class);
+$app->get('/credit-cards', CreditCardsController::class);
+$app->post('/credit-cards', CreditCardsController::class);
+$app->post('/login', LoginController::class);
+$app->post('/register', RegistrationController::class);
+$app->put('/admin/credit-cards/{id}', CreditCardsAdminController::class);
 
 $app->run();

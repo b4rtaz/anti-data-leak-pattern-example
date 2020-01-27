@@ -1,6 +1,6 @@
 <?php
 
-namespace Mdanter\Ecc\Serializer\PrivateKey;
+namespace AdminClient\Cryptography;
 
 use FG\ASN1\ASNObject;
 use FG\ASN1\Universal\Integer;

@@ -1,5 +1,7 @@
 <?php
 
+namespace WebService\Controllers;
+
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -66,7 +68,7 @@ class CreditCardsAdminController {
                 return $value;
             }
         }
-        throw new RuntimeException('Cannot find the relation.');
+        throw new \RuntimeException('Cannot find the relation.');
     }
 
     private function put(Request $request, Response $response) {
